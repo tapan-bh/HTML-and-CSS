@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Food Order Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-image:linear-gradient(to right,yellow,white,yellow);
+			height:100vh;
+        }
+        h1 {
+            color: #333;
+			text-align: center;
+        }
+        form {
+            background-color: rgb(240,150,180);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, button {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+		tr{
+			background-color: white;
+		}
+        .print-button {
+            margin-top: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .print-button:hover {
+            background-color: #0056b3;
+        }
+        @media print {
+            form, .print-button {
+                display: none;
+				
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Food Order Form</h1>
+    <form method="POST" action="">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="address">Address:</label><br>
+        <textarea id="address" name="address" required></textarea><br><br>
+
+        <label for="food1">Food Item 1:</label><br>
+        <input type="text" id="food1" name="food1" value="Porota" readonly> 
+        <input type="number" name="qty1" placeholder="Quantity" required><br><br>
+
+        <label for="food2">Food Item 2:</label><br>
+        <input type="text" id="food2" name="food2" value="Dal" readonly>
+        <input type="number" name="qty2" placeholder="Quantity" required><br><br>
+
+        <label for="food3">Food Item 3:</label><br>
+        <input type="text" id="food3" name="food3" value="Vegetables" readonly>
+        <input type="number" name="qty3" placeholder="Quantity" required><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <?php
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $name = htmlspecialchars($_POST['name']);
+        $address = htmlspecialchars($_POST['address']);
+
+        $food1 = $_POST['food1'];
+        $qty1 = (int)$_POST['qty1'];
+        $price1 = 15.00;
+        $total1 = $qty1 * $price1;
+
+        $food2 = $_POST['food2'];
+        $qty2 = (int)$_POST['qty2'];
+        $price2 = 10.00;
+        $total2 = $qty2 * $price2;
+
+        $food3 = $_POST['food3'];
+        $qty3 = (int)$_POST['qty3'];
+        $price3 = 30.00;
+        $total3 = $qty3 * $price3;
+
+        $grandTotal = $total1 + $total2 + $total3;
+
+        echo "<h2>Order Summary</h2>";
+        echo "<p><strong>Name:</strong> $name</p>";
+        echo "<p><strong>Address:</strong> $address</p>";
+
+        echo "<table border='1'>";
+        echo "<tr><th>Food Item</th><th>Quantity</th><th>Price(In BDT)</th><th>Total(In BDT)</th></tr>";
+        echo "<tr><td>$food1</td><td>$qty1</td><td> $price1</td><td> $total1</td></tr>";
+        echo "<tr><td>$food2</td><td>$qty2</td><td> $price2</td><td> $total2</td></tr>";
+        echo "<tr><td>$food3</td><td>$qty3</td><td> $price3</td><td> $total3</td></tr>";
+        echo "<tr><td colspan='3'><strong>Grand Total</strong></td><td>BDT $grandTotal</td></tr>";
+        echo "</table>";
+
+        echo "<button class='print-button' onclick='window.print()'>Print</button>";
+    }
+    ?>
+</body>
+</html>
